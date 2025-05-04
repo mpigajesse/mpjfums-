@@ -18,7 +18,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn="VOTRE_DSN_SENTRY",  # Remplacez par le DSN fourni par Sentry
+    dsn="https://79ca8e1804a7469d16ace9b011ee0f83e04509265539956736.ingest.us.sentry.io/4509265545134080",
     integrations=[DjangoIntegration()],
     traces_sample_rate=1.0,  # Ajustez le taux de collecte des traces
     send_default_pii=True
