@@ -5,18 +5,18 @@
 {% block content %}
 <!-- Section Hero avec parallax et appel à l'action -->
 <div class="hero-section position-relative overflow-hidden mb-5">
-    <div class="hero-image" style="background-image: url('https://images.unsplash.com/photo-1592914610354-fd354be09481?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); height: 80vh; background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;">
-        <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-60"></div>
+    <div class="hero-image" style="background-image: url('https://images.unsplash.com/photo-1592914610354-fd354be09481?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); height: 60vh; background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;">
+        <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-70"></div>
         <div class="container position-relative h-100 d-flex flex-column justify-content-center text-white">
             <div class="row">
-                <div class="col-lg-8">
-                    <h1 class="display-3 fw-bold mb-3">L'Art de la Parfumerie</h1>
-                    <p class="fs-4 mb-4">Explorez l'univers envoûtant des fragrances d'exception chez MPJFUMS, où chaque parfum raconte une histoire unique.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="{% url 'parfums:liste_parfums' %}" class="btn btn-light btn-lg px-4 fw-bold">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold mb-3">L'Art de la Parfumerie</h1>
+                    <p class="fs-5 mb-4">Explorez l'univers envoûtant des fragrances d'exception chez MPJFUMS, où chaque parfum raconte une histoire unique.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'parfums:liste_parfums' %}" class="btn btn-light px-4 fw-bold">
                             Explorer la Collection
                         </a>
-                        <a href="#collections" class="btn btn-outline-light btn-lg px-4">
+                        <a href="#collections" class="btn btn-outline-light px-4">
                             Nos Éditions Limitées
                         </a>
                     </div>
@@ -27,24 +27,24 @@
 </div>
 
 <!-- Section des collections exclusives -->
-<section id="collections" class="mb-6 py-5">
+<section id="collections" class="mb-5 py-4">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">Collections Exclusives</h2>
+        <div class="text-center mb-4">
+            <h2 class="display-6 fw-bold">Collections Exclusives</h2>
             <p class="lead text-muted">Des fragrances soigneusement élaborées pour captiver vos sens</p>
         </div>
         
-        <div class="row g-5">
+        <div class="row g-4">
             <div class="col-md-6">
-                <div class="card border-0 rounded-4 shadow-lg h-100 overflow-hidden">
-                    <div class="ratio ratio-16x9">
-                        <img src="https://images.unsplash.com/photo-1615144059541-80a99f6d49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="card-img-top object-fit-cover" alt="Collection Femme">
+                <div class="card border-0 rounded-3 shadow h-100 overflow-hidden">
+                    <div class="ratio ratio-4x3">
+                        <img src="https://images.unsplash.com/photo-1615144059541-80a99f6d49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="card-img-top object-fit-cover" alt="Collection Femme">
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex flex-column h-100">
-                            <h3 class="card-title mb-3">Collection Femme</h3>
-                            <p class="card-text flex-grow-1">Des fragrances délicates et enivrantes, conçues pour la femme moderne qui navigue avec grâce entre force et sensualité. Chaque note a été méticuleusement sélectionnée pour créer une symphonie olfactive qui vous accompagnera tout au long de la journée.</p>
-                            <div class="mt-3">
+                            <h3 class="card-title fs-4 mb-2">Collection Femme</h3>
+                            <p class="card-text flex-grow-1">Des fragrances délicates et enivrantes, conçues pour la femme moderne qui navigue avec grâce entre force et sensualité. Chaque note a été méticuleusement sélectionnée pour créer une symphonie olfactive.</p>
+                            <div class="mt-2">
                                 <span class="badge bg-danger p-2 mb-2">Nouveauté</span>
                                 <a href="#" class="btn btn-dark w-100 mt-2">Découvrir</a>
                             </div>
@@ -53,15 +53,15 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card border-0 rounded-4 shadow-lg h-100 overflow-hidden">
-                    <div class="ratio ratio-16x9">
-                        <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="card-img-top object-fit-cover" alt="Collection Homme">
+                <div class="card border-0 rounded-3 shadow h-100 overflow-hidden">
+                    <div class="ratio ratio-4x3">
+                        <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="card-img-top object-fit-cover" alt="Collection Homme">
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex flex-column h-100">
-                            <h3 class="card-title mb-3">Collection Homme</h3>
-                            <p class="card-text flex-grow-1">Des fragrances audacieuses et caractérielles, élaborées pour l'homme contemporain qui allie élégance et caractère. Un équilibre parfait entre notes boisées, épicées et ambrées pour une signature olfactive qui affirme votre présence sans jamais s'imposer.</p>
-                            <div class="mt-3">
+                            <h3 class="card-title fs-4 mb-2">Collection Homme</h3>
+                            <p class="card-text flex-grow-1">Des fragrances audacieuses et caractérielles, élaborées pour l'homme contemporain qui allie élégance et caractère. Un équilibre parfait entre notes boisées, épicées et ambrées.</p>
+                            <div class="mt-2">
                                 <span class="badge bg-primary p-2 mb-2">Édition Limitée</span>
                                 <a href="#" class="btn btn-dark w-100 mt-2">Découvrir</a>
                             </div>
@@ -74,26 +74,26 @@
 </section>
 
 <!-- Section parfums tendances avec carousel -->
-<section class="mb-6 py-5 bg-light">
+<section class="mb-5 py-4 bg-light">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">Parfums Tendances</h2>
+        <div class="text-center mb-4">
+            <h2 class="display-6 fw-bold">Parfums Tendances</h2>
             <p class="lead text-muted">Nos créations les plus prisées par notre clientèle</p>
             <p class="text-center"><span class="badge bg-warning text-dark">En cours de développement</span> Disponibles très prochainement</p>
         </div>
         
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
             <!-- Parfum 1 -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Élixir Mystique">
-                    <div class="card-body p-4">
-                        <h4 class="card-title fw-bold">Élixir Mystique</h4>
-                        <p class="text-muted mb-3">Parfum Oriental</p>
-                        <p class="card-text">Une composition envoûtante où la vanille de Madagascar rencontre l'ambre et le patchouli pour créer une aura mystérieuse qui vous accompagne toute la journée.</p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Élixir Mystique">
+                    <div class="card-body p-3">
+                        <h4 class="card-title fs-5 fw-bold">Élixir Mystique</h4>
+                        <p class="text-muted mb-2">Parfum Oriental</p>
+                        <p class="card-text small">Une composition envoûtante où la vanille de Madagascar rencontre l'ambre et le patchouli pour créer une aura mystérieuse.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
                             <span class="fs-5 fw-bold">89,00 €</span>
-                            <button class="btn btn-outline-dark" disabled>Bientôt disponible</button>
+                            <button class="btn btn-outline-dark btn-sm" disabled>Bientôt disponible</button>
                         </div>
                     </div>
                 </div>
@@ -101,15 +101,15 @@
             
             <!-- Parfum 2 -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1617897903246-719242758050?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Brise Marine">
-                    <div class="card-body p-4">
-                        <h4 class="card-title fw-bold">Brise Marine</h4>
-                        <p class="text-muted mb-3">Parfum Aquatique</p>
-                        <p class="card-text">Une fragrance fraîche et vivifiante évoquant l'écume des vagues. Des notes de bergamote, de sel marin et de bois flotté pour un voyage olfactif sur les côtes méditerranéennes.</p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1617897903246-719242758050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Brise Marine">
+                    <div class="card-body p-3">
+                        <h4 class="card-title fs-5 fw-bold">Brise Marine</h4>
+                        <p class="text-muted mb-2">Parfum Aquatique</p>
+                        <p class="card-text small">Une fragrance fraîche et vivifiante évoquant l'écume des vagues. Des notes de bergamote, de sel marin et de bois flotté.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
                             <span class="fs-5 fw-bold">75,00 €</span>
-                            <button class="btn btn-outline-dark" disabled>Bientôt disponible</button>
+                            <button class="btn btn-outline-dark btn-sm" disabled>Bientôt disponible</button>
                         </div>
                     </div>
                 </div>
@@ -117,15 +117,15 @@
             
             <!-- Parfum 3 -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1592945403323-2eecc659c764?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Rose Élégance">
-                    <div class="card-body p-4">
-                        <h4 class="card-title fw-bold">Rose Élégance</h4>
-                        <p class="text-muted mb-3">Parfum Floral</p>
-                        <p class="card-text">Un bouquet floral sophistiqué dominé par la rose de Damas, sublimée par des touches de pivoine et de musc blanc. Une ode à la féminité intemporelle.</p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1592945403323-2eecc659c764?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Rose Élégance">
+                    <div class="card-body p-3">
+                        <h4 class="card-title fs-5 fw-bold">Rose Élégance</h4>
+                        <p class="text-muted mb-2">Parfum Floral</p>
+                        <p class="card-text small">Un bouquet floral sophistiqué dominé par la rose de Damas, sublimée par des touches de pivoine et de musc blanc.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
                             <span class="fs-5 fw-bold">95,00 €</span>
-                            <button class="btn btn-outline-dark" disabled>Bientôt disponible</button>
+                            <button class="btn btn-outline-dark btn-sm" disabled>Bientôt disponible</button>
                         </div>
                     </div>
                 </div>
@@ -135,29 +135,29 @@
 </section>
 
 <!-- Section Notre Philosophie -->
-<section class="mb-6 py-5">
+<section class="mb-5 py-4">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="object-fit-cover" alt="Notre laboratoire">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="rounded-3 overflow-hidden shadow">
+                    <img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="img-fluid w-100" style="max-height: 350px; object-fit: cover;" alt="Notre laboratoire">
                 </div>
             </div>
-            <div class="col-lg-6 ps-lg-5">
-                <h2 class="display-5 fw-bold mb-4">Notre Philosophie</h2>
-                <p class="lead mb-4">L'excellence olfactive, l'éthique et la créativité au cœur de notre démarche</p>
-                <p class="mb-4">Chez MPJFUMS, nous croyons que chaque parfum est une œuvre d'art qui mérite d'être créée avec passion et précision. Nos parfumeurs travaillent avec les ingrédients les plus nobles et les plus rares pour composer des fragrances qui éveillent les sens et transportent l'esprit.</p>
-                <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+            <div class="col-lg-7 ps-lg-4">
+                <h2 class="display-6 fw-bold mb-3">Notre Philosophie</h2>
+                <p class="lead mb-3">L'excellence olfactive, l'éthique et la créativité au cœur de notre démarche</p>
+                <p class="mb-3">Chez MPJFUMS, nous croyons que chaque parfum est une œuvre d'art qui mérite d'être créée avec passion et précision. Nos parfumeurs travaillent avec les ingrédients les plus nobles et les plus rares pour composer des fragrances qui éveillent les sens.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3 mt-3">
                     <div class="feature-item">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-leaf fs-4 me-3 text-success"></i>
-                            <h5 class="mb-0">Ingrédients Nobles</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-leaf fs-5 me-2 text-success"></i>
+                            <h5 class="mb-0 fs-6">Ingrédients Nobles</h5>
                         </div>
                     </div>
                     <div class="feature-item">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-vial fs-4 me-3 text-primary"></i>
-                            <h5 class="mb-0">Savoir-faire Artisanal</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-vial fs-5 me-2 text-primary"></i>
+                            <h5 class="mb-0 fs-6">Savoir-faire Artisanal</h5>
                         </div>
                     </div>
                 </div>
@@ -167,18 +167,18 @@
 </section>
 
 <!-- Section inscription newsletter -->
-<section class="py-5 bg-dark text-white rounded-4 mb-5">
+<section class="py-4 bg-dark text-white rounded-3 mb-4">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2 class="display-6 fw-bold mb-4">Restez informé de nos nouveautés</h2>
-                <p class="lead mb-4">Inscrivez-vous à notre newsletter pour découvrir en avant-première nos créations exclusives et bénéficier d'offres spéciales.</p>
-                <form class="row g-3 justify-content-center">
-                    <div class="col-md-8">
-                        <input type="email" class="form-control form-control-lg" placeholder="Votre adresse email">
+                <h2 class="fs-3 fw-bold mb-3">Restez informé de nos nouveautés</h2>
+                <p class="lead fs-6 mb-3">Inscrivez-vous à notre newsletter pour découvrir en avant-première nos créations exclusives.</p>
+                <form class="row g-2 justify-content-center">
+                    <div class="col-md-7">
+                        <input type="email" class="form-control" placeholder="Votre adresse email">
                     </div>
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-light btn-lg w-100">S'inscrire</button>
+                        <button type="submit" class="btn btn-light w-100">S'inscrire</button>
                     </div>
                 </form>
             </div>
@@ -188,17 +188,22 @@
 
 <!-- Style pour la page d'accueil -->
 <style>
-    .mb-6 {
-        margin-bottom: 5rem;
+    .mb-5 {
+        margin-bottom: 3rem;
     }
     .hero-section {
-        margin-top: -3rem;
+        margin-top: -2rem;
     }
     .card {
         transition: transform 0.3s ease;
     }
     .card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-3px);
+    }
+    @media (max-width: 768px) {
+        .hero-image {
+            height: 50vh !important;
+        }
     }
 </style>
 {% endblock %} 
