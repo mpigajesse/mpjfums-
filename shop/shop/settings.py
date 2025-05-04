@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+# Intégration de Sentry pour la surveillance des erreurs
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="VOTRE_DSN_SENTRY",  # Remplacez par le DSN fourni par Sentry
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,  # Ajustez le taux de collecte des traces
+    send_default_pii=True
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

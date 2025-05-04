@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Parfum, Categorie
+from django.http import HttpResponseServerError
 
 def accueil(request):
     parfums = Parfum.objects.all()[:6]  # Limité à 6 parfums pour la page d'accueil
@@ -30,3 +31,7 @@ def parfums_par_categorie(request, categorie_id):
         'categorie_active': categorie,
         'categories': categories
     })
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
+    return HttpResponseServerError("An error occurred.")
