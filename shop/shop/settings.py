@@ -107,7 +107,7 @@ elif os.environ.get('POSTGRES_USER') and os.environ.get('POSTGRES_PASSWORD'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB', 'mpjfums_bd'),  # Nom personnalisé par défaut
+            'NAME': os.environ.get('POSTGRES_DB', 'railway'),  # Nom personnalisé par défaut
             'USER': os.environ.get('POSTGRES_USER', 'postgres'),     # Utilisateur personnalisé par défaut
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
             'HOST': os.environ.get('PGHOST', 'localhost'),
