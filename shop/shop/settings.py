@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 # Configuration de la base de données
 # Utiliser PostgreSQL en production (Railway) et SQLite en développement
 if os.environ.get('DATABASE_URL'):
-    # Configuration pour Railway avec PostgreSQL
+    # Configuration pour Railway avec PostgreSQL via URL complète
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
@@ -107,8 +107,8 @@ elif os.environ.get('POSTGRES_USER') and os.environ.get('POSTGRES_PASSWORD'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB', 'railway'),
-            'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+            'NAME': os.environ.get('POSTGRES_DB', 'mpjfums_bd'),  # Nom personnalisé par défaut
+            'USER': os.environ.get('POSTGRES_USER', 'admin'),     # Utilisateur personnalisé par défaut
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
             'HOST': os.environ.get('PGHOST', 'localhost'),
             'PORT': os.environ.get('PGPORT', '5432'),
