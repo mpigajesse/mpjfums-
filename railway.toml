@@ -1,0 +1,12 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd shop && pip install -r requirements.txt && python manage.py collectstatic --noinput"
+
+[deploy]
+startCommand = "cd shop && python manage.py migrate && python manage.py runserver 0.0.0.0:$PORT"
+healthcheckPath = "/shop/parfums/"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+
+[variables]
+ENVIRONMENT = "production" 
