@@ -1,0 +1,82 @@
+{% extends 'parfums/base.html' %}
+
+{% block title %}{{ parfum.nom }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-5 mb-4">
+        {% if parfum.image %}
+        <img src="{{ parfum.image }}" class="img-fluid rounded" alt="{{ parfum.nom }}">
+        {% else %}
+        <div class="bg-secondary text-white text-center py-5 rounded">
+            <i class="fas fa-spray-can fa-5x"></i>
+            <p class="mt-3">Image non disponible</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-lg-7">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'parfums:accueil' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'parfums:liste_parfums' %}">Parfums</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ parfum.nom }}</li>
+            </ol>
+        </nav>
+        
+        <h1 class="mb-3">{{ parfum.nom }}</h1>
+        <p class="text-muted">Catégorie: <a href="{% url 'parfums:parfums_par_categorie' parfum.categorie.id %}">{{ parfum.categorie }}</a></p>
+        
+        <div class="mb-4">
+            <span class="fs-3 fw-bold text-primary">{{ parfum.prix }} €</span>
+            <span class="badge {% if parfum.stock > 0 %}bg-success{% else %}bg-danger{% endif %} ms-2">
+                {% if parfum.stock > 0 %}En stock ({{ parfum.stock }}){% else %}Rupture de stock{% endif %}
+            </span>
+        </div>
+        
+        <div class="mb-4">
+            <h5>Description</h5>
+            <p>{{ parfum.description }}</p>
+        </div>
+        
+        <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-primary btn-lg {% if parfum.stock <= 0 %}disabled{% endif %}" type="button">
+                <i class="fas fa-cart-plus me-2"></i>Ajouter au panier
+            </button>
+            <a href="{% url 'parfums:liste_parfums' %}" class="btn btn-outline-secondary btn-lg ms-md-2">
+                Retour aux parfums
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h3 class="mb-4">Informations complémentaires</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Caractéristiques</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Date d'ajout:</strong> {{ parfum.date_ajout|date:"d/m/Y" }}</p>
+                    <p><strong>Catégorie:</strong> {{ parfum.categorie }}</p>
+                    <p><strong>Référence:</strong> REF-{{ parfum.id }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Livraison et retours</h5>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-truck me-2"></i> Livraison gratuite à partir de 50€</p>
+                    <p><i class="fas fa-undo me-2"></i> Retours gratuits sous 30 jours</p>
+                    <p><i class="fas fa-lock me-2"></i> Paiement sécurisé</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

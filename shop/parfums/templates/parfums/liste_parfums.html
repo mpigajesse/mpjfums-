@@ -1,0 +1,68 @@
+{% extends 'parfums/base.html' %}
+
+{% block title %}Nos Parfums{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar avec les catégories -->
+    <div class="col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Catégories</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'parfums:liste_parfums' %}" class="list-group-item list-group-item-action {% if not categorie_active %}active{% endif %}">
+                    Tous les parfums
+                </a>
+                {% for cat in categories %}
+                <a href="{% url 'parfums:parfums_par_categorie' cat.id %}" class="list-group-item list-group-item-action {% if categorie_active.id == cat.id %}active{% endif %}">
+                    {{ cat.nom }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Liste des parfums -->
+    <div class="col-lg-9">
+        <h1 class="mb-4">
+            {% if categorie_active %}
+            Parfums de la catégorie "{{ categorie_active.nom }}"
+            {% else %}
+            Tous nos parfums
+            {% endif %}
+        </h1>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for parfum in parfums %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    {% if parfum.image %}
+                    <img src="{{ parfum.image }}" class="card-img-top" alt="{{ parfum.nom }}">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5">
+                        <i class="fas fa-spray-can fa-3x"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ parfum.nom }}</h5>
+                        <p class="card-text text-muted">{{ parfum.categorie }}</p>
+                        <p class="card-text">{{ parfum.description|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fs-5 fw-bold">{{ parfum.prix }} €</span>
+                            <a href="{% url 'parfums:detail_parfum' parfum.id %}" class="btn btn-outline-dark">
+                                Voir détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="fs-5">Aucun parfum disponible dans cette catégorie.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
