@@ -136,6 +136,23 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Dossiers supplémentaires où Django cherchera les fichiers statiques
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Simplification de la collecte des fichiers statiques en production
+if os.environ.get('ENVIRONMENT') == 'production':
+    # Désactiver le mode debug en production
+    DEBUG = False
+    # Configuration pour servir les fichiers statiques en production
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    # S'assurer que les fichiers statiques sont créés même s'ils n'existent pas
+    import os
+    os.makedirs(str(STATIC_ROOT), exist_ok=True)
+    # S'assurer que les fichiers statiques sont accessibles même en mode debug désactivé
+    WHITENOISE_USE_FINDERS = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
