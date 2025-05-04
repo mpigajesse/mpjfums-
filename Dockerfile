@@ -19,9 +19,11 @@ ENV PYTHONUNBUFFERED=1
 ENV ENVIRONMENT=production
 ENV PORT=8000
 
-# Exécuter les commandes Django
+# Changer vers le répertoire de l'application
 WORKDIR /app/shop
-RUN python manage.py collectstatic --noinput || echo "Skipping collectstatic"
+
+# Exécuter les commandes Django
+RUN python manage.py collectstatic --noinput || true
 
 # Exposer le port pour Django
 EXPOSE 8000
