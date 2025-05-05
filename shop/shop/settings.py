@@ -17,16 +17,14 @@ import os
 try:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
-    
+
     # Activer Sentry uniquement en développement pour le moment
     # jusqu'à ce que nous résolvions les problèmes de déploiement
     if os.environ.get('ENVIRONMENT') != 'production':
         # Configuration simplifiée de Sentry
         sentry_sdk.init(
             dsn="https://79ca8e1804a7469d16ace9b011ee0f83e04509265539956736.ingest.us.sentry.io/4509265545134080",
-            integrations=[
-                DjangoIntegration(),
-            ],
+            integrations=[DjangoIntegration()],
             traces_sample_rate=0.5,
         )
 except ImportError:
@@ -35,7 +33,6 @@ except ImportError:
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -47,7 +44,6 @@ SECRET_KEY = 'django-insecure-d7kd8rj$0*ps41$3ny+%r5p^szqofj7@*mmc$=hsyfbhm#&_x7
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app']
-
 
 # Application definition
 
@@ -91,14 +87,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shop.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # Configuration de la base de données
 # Utiliser PostgreSQL en production (Railway) et SQLite en développement
 if os.environ.get('DATABASE_URL'):
-    # Configuration pour Railway avec PostgreSQL via URL complète
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
@@ -107,26 +101,23 @@ if os.environ.get('DATABASE_URL'):
         )
     }
 elif os.environ.get('POSTGRES_USER') and os.environ.get('POSTGRES_PASSWORD'):
-    # Configuration PostgreSQL avec paramètres spécifiques de Railway
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB', 'railway'),  # Nom personnalisé par défaut
-            'USER': os.environ.get('POSTGRES_USER', 'postgres'),     # Utilisateur personnalisé par défaut
+            'NAME': os.environ.get('POSTGRES_DB', 'railway'),
+            'USER': os.environ.get('POSTGRES_USER', 'postgres'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
             'HOST': os.environ.get('PGHOST', 'localhost'),
             'PORT': os.environ.get('PGPORT', '5432'),
         }
     }
 else:
-    # Configuration pour le développement local avec SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -146,7 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -158,28 +148,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Dossiers supplémentaires où Django cherchera les fichiers statiques
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Simplification de la collecte des fichiers statiques en production
 if os.environ.get('ENVIRONMENT') == 'production':
-    # Désactiver le mode debug en production
     DEBUG = False
-    # Configuration pour servir les fichiers statiques en production
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-    # S'assurer que les fichiers statiques sont créés même s'ils n'existent pas
-    import os
     os.makedirs(str(STATIC_ROOT), exist_ok=True)
-    # S'assurer que les fichiers statiques sont accessibles même en mode debug désactivé
     WHITENOISE_USE_FINDERS = True
 
 # Default primary key field type
