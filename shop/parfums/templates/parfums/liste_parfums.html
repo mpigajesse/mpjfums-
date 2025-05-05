@@ -1,24 +1,110 @@
 {% extends 'parfums/base.html' %}
+{% load static %}
 
 {% block title %}Nos Parfums{% endblock %}
 
 {% block content %}
+<!-- Bannière d'information pour site en développement -->
+<div class="container-fluid mb-4 py-4 bg-primary bg-opacity-10 rounded-3 border-start border-5 border-primary">
+    <div class="row align-items-center">
+        <div class="col-md-8 col-lg-9">
+            <h2 class="fs-4 fw-bold text-primary mb-2">Collection en cours de développement</h2>
+            <p class="mb-md-0">Notre catalogue de parfums s'enrichit chaque jour. Restez connectés pour découvrir nos nouvelles créations exclusives, alliant savoir-faire ancestral gabonais et inspirations internationales.</p>
+        </div>
+        <div class="col-md-4 col-lg-3 text-md-end">
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newsletterModal">
+                <i class="fas fa-envelope me-2"></i> Être notifié des nouveautés
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Présentation de notre démarche -->
+<div class="container mb-4">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+            <h2 class="display-6 fw-bold mb-3">L'esprit MPJFUMS</h2>
+            <p class="lead">Des parfums qui racontent l'histoire du Gabon et s'ouvrent au monde</p>
+            <p>Chez MPJFUMS, nous valorisons d'abord les richesses naturelles gabonaises avec des parfums <strong>100% locaux</strong>, créés à partir d'essences rares comme l'okoumé, le kevazingo et les fleurs sauvages de nos forêts. Notre savoir-faire artisanal sera bientôt enrichi par des collaborations internationales pour vous offrir des fragrances uniques au croisement des cultures.</p>
+            <div class="d-flex gap-3 mt-3">
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-success rounded-circle p-2 me-2"><i class="fas fa-leaf"></i></span>
+                    <span class="small">100% Naturel</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-danger rounded-circle p-2 me-2"><i class="fas fa-heart"></i></span>
+                    <span class="small">Éthique</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-primary rounded-circle p-2 me-2"><i class="fas fa-flask"></i></span>
+                    <span class="small">Expertise locale</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?q=80&w=774&auto=format&fit=crop" class="card-img h-100 object-fit-cover" alt="Forêt gabonaise">
+                        <div class="card-img-overlay d-flex align-items-end bg-dark bg-opacity-50">
+                            <h5 class="card-title text-white mb-0">Collection Gabonaise</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=870&auto=format&fit=crop" class="card-img h-100 object-fit-cover" alt="Parfums internationaux">
+                        <div class="card-img-overlay d-flex align-items-end bg-dark bg-opacity-50">
+                            <h5 class="card-title text-white mb-0">Futures Collections</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <!-- Sidebar avec les catégories -->
     <div class="col-lg-3 mb-4">
-        <div class="card">
+        <div class="card border-0 shadow-sm">
             <div class="card-header bg-dark text-white">
                 <h5 class="mb-0">Catégories</h5>
             </div>
             <div class="list-group list-group-flush">
                 <a href="{% url 'parfums:liste_parfums' %}" class="list-group-item list-group-item-action {% if not categorie_active %}active{% endif %}">
-                    Tous les parfums
+                    <i class="fas fa-th-list me-2"></i> Tous les parfums
                 </a>
                 {% for cat in categories %}
                 <a href="{% url 'parfums:parfums_par_categorie' cat.id %}" class="list-group-item list-group-item-action {% if categorie_active.id == cat.id %}active{% endif %}">
                     {{ cat.nom }}
                 </a>
                 {% endfor %}
+                
+                <!-- Catégories à venir -->
+                <div class="list-group-item bg-light">
+                    <small class="text-muted fw-bold">Prochainement disponibles</small>
+                </div>
+                <div class="list-group-item disabled">
+                    <i class="fas fa-clock me-2"></i> Collection Internationale
+                </div>
+                <div class="list-group-item disabled">
+                    <i class="fas fa-clock me-2"></i> Éditions Limitées
+                </div>
+                <div class="list-group-item disabled">
+                    <i class="fas fa-clock me-2"></i> Collections Saisonnières
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aide au choix -->
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-body bg-light">
+                <h5 class="card-title">Besoin d'aide ?</h5>
+                <p class="card-text small">Nos experts en parfumerie gabonaise sont disponibles pour vous guider dans votre choix.</p>
+                <a href="mailto:contact@mpjfums.com" class="btn btn-sm btn-outline-dark w-100">
+                    <i class="fas fa-envelope me-2"></i> Contactez-nous
+                </a>
             </div>
         </div>
     </div>
@@ -29,14 +115,14 @@
             {% if categorie_active %}
             Parfums de la catégorie "{{ categorie_active.nom }}"
             {% else %}
-            Tous nos parfums
+            Notre Collection de Parfums
             {% endif %}
         </h1>
         
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
             {% for parfum in parfums %}
             <div class="col">
-                <div class="card h-100 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm hover-scale">
                     {% if parfum.image %}
                     <img src="{{ parfum.image }}" class="card-img-top" alt="{{ parfum.nom }}">
                     {% else %}
@@ -45,24 +131,242 @@
                     </div>
                     {% endif %}
                     <div class="card-body">
-                        <h5 class="card-title">{{ parfum.nom }}</h5>
-                        <p class="card-text text-muted">{{ parfum.categorie }}</p>
-                        <p class="card-text">{{ parfum.description|truncatechars:100 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ parfum.nom }}</h5>
+                            <span class="badge bg-success">Gabon</span>
+                        </div>
+                        <p class="card-text text-muted small mb-1">{{ parfum.categorie }}</p>
+                        <p class="card-text small">{{ parfum.description|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="fs-5 fw-bold">{{ parfum.prix }} €</span>
-                            <a href="{% url 'parfums:detail_parfum' parfum.id %}" class="btn btn-outline-dark">
-                                Voir détails
+                            <a href="{% url 'parfums:detail_parfum' parfum.id %}" class="btn btn-sm btn-outline-dark">
+                                <i class="fas fa-eye me-1"></i> Voir détails
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center py-5">
-                <p class="fs-5">Aucun parfum disponible dans cette catégorie.</p>
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-flask fa-3x text-muted mb-3"></i>
+                        <h4>Nos parfumeurs sont à l'œuvre !</h4>
+                        <p class="text-muted mb-4">Notre collection est en cours de création. Les parfums de cette catégorie seront bientôt disponibles.</p>
+                        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+                            <a href="{% url 'parfums:liste_parfums' %}" class="btn btn-primary">
+                                <i class="fas fa-th-list me-2"></i> Voir toutes nos fragrances
+                            </a>
+                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#newsletterModal">
+                                <i class="fas fa-bell me-2"></i> M'alerter des nouveautés
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
+        
+        <!-- Parfums à venir -->
+        <div class="card border-0 shadow-sm bg-light mb-4">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h3 class="card-title">Collections à venir</h3>
+                        <p class="card-text">Nos parfumeurs s'inspirent des neuf provinces du Gabon et du climat unique de chaque région pour créer des fragrances exceptionnelles qui racontent l'histoire de notre pays.</p>
+                        <ul class="mb-0">
+                            <li><strong>Collection "Savanes & Forêts"</strong> - Été 2025
+                                <small class="d-block text-muted">Inspirée des forêts denses de l'Ogooué-Ivindo et des savanes du Haut-Ogooué</small>
+                            </li>
+                            <li><strong>Collection "Climats Gabonais"</strong> - Automne 2024
+                                <small class="d-block text-muted">Un voyage sensoriel à travers les saisons uniques de l'Estuaire et de l'Ogooué-Maritime</small>
+                            </li>
+                            <li><strong>Édition Limitée "Vacances Gabonaises"</strong> - Fin 2024
+                                <small class="d-block text-muted">Des fragrances légères évoquant la période estivale dans les plages de la Nyanga et du Moyen-Ogooué</small>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-5 mt-3 mt-md-0">
+                        <div class="card border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1544298903-35eee5a95963?q=80&w=2080&auto=format&fit=crop" class="card-img-top" alt="Forêt tropicale gabonaise">
+                            <div class="card-body p-2">
+                                <p class="card-text small text-center mb-0">La diversité des écosystèmes du Gabon inspire nos collections</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mosaïque des provinces du Gabon -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0 fs-5">Nos inspirations : Les neuf provinces du Gabon</h4>
+            </div>
+            <div class="card-body p-3">
+                <p class="card-text">Chaque province gabonaise offre son propre climat, ses essences naturelles et sa biodiversité unique qui inspire nos créations.</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1527254432236-218d72864aa7?q=80&w=1974&auto=format&fit=crop" class="card-img-top" alt="Estuaire">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Estuaire</h5>
+                                    <p class="card-text small mb-0">Climat équatorial côtier</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1532444458054-01a7dd3e9fca?q=80&w=1941&auto=format&fit=crop" class="card-img-top" alt="Ogooué-Maritime">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Ogooué-Maritime</h5>
+                                    <p class="card-text small mb-0">Brise marine et mangroves</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1545396635-c91c01211b20?q=80&w=2071&auto=format&fit=crop" class="card-img-top" alt="Ogooué-Ivindo">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Ogooué-Ivindo</h5>
+                                    <p class="card-text small mb-0">Forêts denses et primaires</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1506786345-a9eaaa5f8c7a?q=80&w=2070&auto=format&fit=crop" class="card-img-top" alt="Haut-Ogooué">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Haut-Ogooué</h5>
+                                    <p class="card-text small mb-0">Savanes boisées</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop" class="card-img-top" alt="Woleu-Ntem">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Woleu-Ntem</h5>
+                                    <p class="card-text small mb-0">Climat équatorial continental</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1603467134499-f6b183efc9a3?q=80&w=1935&auto=format&fit=crop" class="card-img-top" alt="Nyanga">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Nyanga</h5>
+                                    <p class="card-text small mb-0">Plages et forêts côtières</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100 province-card">
+                            <img src="https://images.unsplash.com/photo-1500463959177-e0869687df26?q=80&w=1974&auto=format&fit=crop" class="card-img-top" alt="Autres provinces">
+                            <div class="card-img-overlay d-flex align-items-end">
+                                <div class="w-100 bg-dark bg-opacity-75 p-2 text-white">
+                                    <h5 class="card-title mb-0 fs-6">Et plus encore...</h5>
+                                    <p class="card-text small mb-0">Moyen-Ogooué, Ngounié, Ogooué-Lolo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Édition Spéciale Vacances -->
+        <div class="card border-0 shadow-sm bg-warning bg-opacity-10 border-start border-4 border-warning mb-4">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-9">
+                        <h3 class="mb-2">Édition Spéciale Vacances</h3>
+                        <p class="mb-0">Préparez-vous pour la saison des vacances avec notre prochaine collection qui capture l'essence des destinations gabonaises préférées. Des fragrances légères pour la saison sèche et les journées ensoleillées qui vous attendent.</p>
+                    </div>
+                    <div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#newsletterModal">
+                            <i class="fas fa-bell me-2"></i> M'alerter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Modal pour newsletter -->
+<div class="modal fade" id="newsletterModal" tabindex="-1" aria-labelledby="newsletterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="newsletterModalLabel">Restez informé de nos nouveautés</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Soyez les premiers à découvrir nos nouvelles fragrances inspirées du Gabon et du monde entier.</p>
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Adresse email</label>
+                        <input type="email" class="form-control" id="email" placeholder="votre@email.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prefGab" checked>
+                            <label class="form-check-label" for="prefGab">Collection Gabonaise</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prefInt" checked>
+                            <label class="form-check-label" for="prefInt">Collections Internationales</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">S'inscrire</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-scale:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .badge {
+        transition: all 0.2s ease;
+    }
+    .badge:hover {
+        transform: scale(1.1);
+    }
+    .province-card {
+        overflow: hidden;
+        height: 160px;
+        border: none;
+    }
+    .province-card img {
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .province-card:hover img {
+        transform: scale(1.1);
+    }
+</style>
 {% endblock %} 
