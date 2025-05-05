@@ -248,5 +248,10 @@
     </script>
     
     {% block extra_js %}{% endblock %}
+    
+    {% if debug %}
+    <!-- Django Browser Reload - Version simplifiée -->
+    <script id="django-browser-reload-script" src="/__reload__/"></script>
+    {% endif %}
 </body>
 </html> 

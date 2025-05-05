@@ -44,8 +44,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-d7kd8rj$0*ps41$3ny+%r5p^szqofj7@*mmc$=hsyfbhm#&_x7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# En développement: DEBUG=True (valeur par défaut)
+# En production: réglez la variable d'environnement DEBUG sur 'False'
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
+# Configuration spéciale pour tester les pages d'erreur même en mode DEBUG
+# Cette configuration permet de voir la page 404 personnalisée en développement avec DEBUG=True
+TEMPLATE_DEBUG = False
+
+# En production, assurez-vous d'inclure tous les domaines/sous-domaines sur lesquels votre site est hébergé
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app', 'mpjfums-production.up.railway.app']
 
 # Application definition
@@ -76,7 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django_browser_reload.middleware.BrowserReloadMiddleware', # Rechargement automatique - Désactivé temporairement
+    'django_browser_reload.middleware.BrowserReloadMiddleware', # Rechargement automatique en développement
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -84,7 +91,7 @@ ROOT_URLCONF = 'shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'parfums' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'parfums.context_processors.debug',  # Notre context processor personnalisé
             ],
         },
     },
