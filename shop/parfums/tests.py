@@ -28,13 +28,18 @@ class ParfumModelTest(TestCase):
 
 class ViewsTest(TestCase):
     def setUp(self):
-        self.categorie = Categorie.objects.create(nom="Parfums unisexe", description="Des fragrances pour tous")
+        self.categorie = Categorie.objects.create(
+            nom="Parfums unisexe", 
+            description="Des fragrances pour tous",
+            slug="parfums-unisexe"
+        )
         self.parfum = Parfum.objects.create(
             nom="Ocean Breeze",
             description="Un parfum frais avec des notes marines",
             prix=69.99,
             stock=10,
-            categorie=self.categorie
+            categorie=self.categorie,
+            slug="ocean-breeze"
         )
         
     def test_accueil_view(self):
@@ -50,13 +55,23 @@ class ViewsTest(TestCase):
         self.assertContains(response, "Ocean Breeze")
         
     def test_detail_parfum_view(self):
-        response = self.client.get(reverse('parfums:detail_parfum', args=[self.parfum.id]))
+        # Utilisation directe de l'URL avec slug qui ne génère pas de redirection
+        response = self.client.get(reverse('parfums:detail_parfum_slug', args=[self.parfum.slug]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'parfums/detail_parfum.html')
         self.assertContains(response, "Ocean Breeze")
         
+        # Ancienne URL qui devrait rediriger (code 301)
+        old_url_response = self.client.get(reverse('parfums:detail_parfum', args=[self.parfum.id]))
+        self.assertEqual(old_url_response.status_code, 301)
+        
     def test_parfums_par_categorie_view(self):
-        response = self.client.get(reverse('parfums:parfums_par_categorie', args=[self.categorie.id]))
+        # Utilisation directe de l'URL avec slug qui ne génère pas de redirection
+        response = self.client.get(reverse('parfums:parfums_par_categorie_slug', args=[self.categorie.slug]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'parfums/liste_parfums.html')
         self.assertContains(response, "Parfums unisexe")
+        
+        # Ancienne URL qui devrait rediriger (code 301)
+        old_url_response = self.client.get(reverse('parfums:parfums_par_categorie', args=[self.categorie.id]))
+        self.assertEqual(old_url_response.status_code, 301)
