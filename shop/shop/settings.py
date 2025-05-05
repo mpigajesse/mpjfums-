@@ -14,20 +14,24 @@ from pathlib import Path
 import os
 
 # Intégration de Sentry pour la surveillance des erreurs
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-# Activer Sentry uniquement en développement pour le moment
-# jusqu'à ce que nous résolvions les problèmes de déploiement
-if os.environ.get('ENVIRONMENT') != 'production':
-    # Configuration simplifiée de Sentry
-    sentry_sdk.init(
-        dsn="https://79ca8e1804a7469d16ace9b011ee0f83e04509265539956736.ingest.us.sentry.io/4509265545134080",
-        integrations=[
-            DjangoIntegration(),
-        ],
-        traces_sample_rate=0.5,
-    )
+try:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+    
+    # Activer Sentry uniquement en développement pour le moment
+    # jusqu'à ce que nous résolvions les problèmes de déploiement
+    if os.environ.get('ENVIRONMENT') != 'production':
+        # Configuration simplifiée de Sentry
+        sentry_sdk.init(
+            dsn="https://79ca8e1804a7469d16ace9b011ee0f83e04509265539956736.ingest.us.sentry.io/4509265545134080",
+            integrations=[
+                DjangoIntegration(),
+            ],
+            traces_sample_rate=0.5,
+        )
+except ImportError:
+    # Sentry n'est pas installé, pas de problème en développement
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
