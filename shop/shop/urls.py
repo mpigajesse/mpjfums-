@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView, TemplateView
@@ -16,6 +15,10 @@ def serve_robots_txt(request):
 def serve_manifest_json(request):
     return serve(request, 'manifest.json', document_root=settings.STATIC_ROOT)
 
+# Vue personnalisée pour les erreurs 404
+def page_not_found(request, exception):
+    return TemplateView.as_view(template_name='parfums/404.html')(request)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/parfums/', include('parfums.urls')),
@@ -25,12 +28,15 @@ urlpatterns = [
     path('robots.txt', serve_robots_txt),
     path('manifest.json', serve_manifest_json),
     
-    # Page d'erreur 404 personnalisée
-    path('404/', TemplateView.as_view(template_name='404.html'), name='page_404'),
+    # Page d'erreur 404 personnalisée pour test
+    path('404/', TemplateView.as_view(template_name='parfums/404.html'), name='page_404'),
     
     # Django Browser Reload pour le développement
     path("__reload__/", include("django_browser_reload.urls")),
 ]
+
+# Ajout du handler404 personnalisé
+handler404 = 'shop.urls.page_not_found'
 
 # Ajouter les URLs de DEBUG uniquement en développement
 if settings.DEBUG:
