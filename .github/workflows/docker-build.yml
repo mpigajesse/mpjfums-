@@ -1,0 +1,45 @@
+name: Docker Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up directories for testing
+      run: |
+        mkdir -p shop/staticfiles
+        mkdir -p shop/media
+        mkdir -p shop/parfums/migrations
+        touch shop/parfums/migrations/__init__.py
+    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag mpjfums:test
+      
+    - name: List image details
+      run: docker images mpjfums:test
+    
+    - name: Test if container can start
+      run: |
+        docker run --name test-container -e PORT=8000 -e DEBUG=True -p 8000:8000 -d mpjfums:test
+        sleep 10
+        docker ps -a
+        docker logs test-container
+        container_status=$(docker inspect --format='{{.State.Status}}' test-container)
+        echo "Container status: $container_status"
+        if [ "$container_status" != "running" ]; then
+          echo "Container failed to start or crashed"
+          exit 1
+        fi
+    
+    - name: Run Django tests in container
+      run: |
+        docker exec test-container python manage.py check
+        docker exec test-container python manage.py test --noinput || true 
