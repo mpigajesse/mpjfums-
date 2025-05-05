@@ -31,14 +31,14 @@ COPY . /app/
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV ENVIRONMENT=production
-ENV PORT=8000
+# Le port sera défini par Railway
 
 # Exécuter les commandes Django depuis le répertoire shop
 RUN cd /app/shop && python manage.py makemigrations parfums || true
 RUN cd /app/shop && python manage.py collectstatic --noinput || true
 
-# Exposer le port pour Django
-EXPOSE 8000
+# Exposer le port dynamique fourni par Railway
+EXPOSE $PORT
 
 # Commande de démarrage
-CMD cd /app/shop && python manage.py migrate && gunicorn shop.wsgi:application --bind 0.0.0.0:$PORT --workers=3 --timeout=120 --access-logfile=- --error-logfile=- --log-level=debug 
+CMD cd /app/shop && python manage.py migrate && gunicorn shop.wsgi:application --bind 0.0.0.0:$PORT --workers=3 --timeout=120 --access-logfile=- --error-logfile=- --log-level=info 
