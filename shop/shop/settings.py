@@ -53,7 +53,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 TEMPLATE_DEBUG = False
 
 # En production, assurez-vous d'inclure tous les domaines/sous-domaines sur lesquels votre site est hébergé
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app', 'mpjfums-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app', '*.railway.app', 'mpjfums-production.up.railway.app', 'mpjfums-production.railway.app']
 
 # Application definition
 
