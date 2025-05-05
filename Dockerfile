@@ -41,4 +41,4 @@ RUN cd /app/shop && python manage.py collectstatic --noinput || true
 EXPOSE 8000
 
 # Commande de démarrage
-CMD cd /app/shop && python manage.py migrate && gunicorn shop.wsgi:application --bind 0.0.0.0:$PORT 
+CMD cd /app/shop && python manage.py migrate && gunicorn shop.wsgi:application --bind 0.0.0.0:$PORT --workers=3 --timeout=120 --access-logfile=- --error-logfile=- --log-level=debug 
