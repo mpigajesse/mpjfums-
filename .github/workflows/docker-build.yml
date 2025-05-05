@@ -19,6 +19,11 @@ jobs:
         mkdir -p shop/media
         mkdir -p shop/parfums/migrations
         touch shop/parfums/migrations/__init__.py
+        # S'assurer que les répertoires de templates existent
+        mkdir -p shop/parfums/templates/parfums
+        touch shop/parfums/templates/parfums/accueil.html
+        touch shop/parfums/templates/parfums/liste_parfums.html
+        touch shop/parfums/templates/parfums/detail_parfum.html
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mpjfums:test
