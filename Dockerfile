@@ -8,9 +8,20 @@ WORKDIR /app
 COPY requirements.txt /app/
 COPY shop/requirements.txt /app/shop/
 
-# Installer les dépendances
-RUN pip install -r requirements.txt
-RUN pip install -r shop/requirements.txt
+# Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Installer les dépendances Python
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r shop/requirements.txt
+
+# Installation explicite des packages problématiques
+RUN pip install --no-cache-dir whitenoise==6.6.0
+RUN pip install --no-cache-dir pillow
+RUN pip install --no-cache-dir django-imagekit django-browser-reload
 
 # Copier tout le code de l'application
 COPY . /app/
@@ -25,6 +36,7 @@ ENV PORT=8000
 WORKDIR /app/shop
 
 # Exécuter les commandes Django
+RUN python manage.py makemigrations parfums || true
 RUN python manage.py collectstatic --noinput || true
 
 # Exposer le port pour Django

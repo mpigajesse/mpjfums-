@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Page d'accueil -->
+    <url>
+        <loc>{{ request.scheme }}://{{ domain }}</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Liste des parfums -->
+    <url>
+        <loc>{{ request.scheme }}://{{ domain }}{% url 'parfums:liste_parfums' %}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Pages de catégories -->
+    {% for categorie in categories %}
+    <url>
+        {% if categorie.slug %}
+        <loc>{{ request.scheme }}://{{ domain }}{% url 'parfums:parfums_par_categorie_slug' categorie.slug %}</loc>
+        {% else %}
+        <loc>{{ request.scheme }}://{{ domain }}{% url 'parfums:parfums_par_categorie' categorie.id %}</loc>
+        {% endif %}
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    {% endfor %}
+
+    <!-- Pages de détail des parfums -->
+    {% for parfum in parfums %}
+    <url>
+        {% if parfum.slug %}
+        <loc>{{ request.scheme }}://{{ domain }}{% url 'parfums:detail_parfum_slug' parfum.slug %}</loc>
+        {% else %}
+        <loc>{{ request.scheme }}://{{ domain }}{% url 'parfums:detail_parfum' parfum.id %}</loc>
+        {% endif %}
+        <lastmod>{{ parfum.date_ajout|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    {% endfor %}
+</urlset> 

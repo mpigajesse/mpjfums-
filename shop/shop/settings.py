@@ -59,6 +59,12 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',  # Whitenoise pour les fichiers statiques
     'django.contrib.staticfiles',
     'parfums',  # Notre application de boutique de parfums
+    
+    # Outils d'optimisation
+    # 'compressor',        # Compression des assets CSS/JS - Désactivé car incompatible avec Django 5.2
+    'imagekit',          # Optimisation des images
+    # 'cacheops',        # Cache avancé basé sur Redis - Désactivé car incompatible avec Django 5.2
+    'django_browser_reload', # Rechargement automatique en développement
 ]
 
 MIDDLEWARE = [
@@ -70,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django_browser_reload.middleware.BrowserReloadMiddleware', # Rechargement automatique - Désactivé temporairement
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -174,3 +181,64 @@ os.makedirs(str(STATIC_ROOT), exist_ok=True)
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django-compressor settings - Désactivé car incompatible avec Django 5.2
+"""
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter',
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
+"""
+
+# Configuration StaticFiles standard sans compressor
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Configuration de mise en cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'mpjfums-cache',
+    }
+}
+
+# Configuration CacheOps pour du cache avancé - Désactivé car incompatible avec Django 5.2
+# En production, utilisez Redis si disponible
+"""
+if os.environ.get('REDIS_URL'):
+    CACHEOPS_REDIS = os.environ.get('REDIS_URL')
+    CACHEOPS_DEFAULTS = {
+        'timeout': 60*60  # 1 heure
+    }
+    CACHEOPS = {
+        'parfums.*': {'ops': 'all', 'timeout': 60*60*2},  # 2 heures pour les modèles de parfums
+    }
+else:
+    # Utilisation du cache mémoire en développement
+    CACHEOPS_ENABLED = False
+"""
+# Désactivation complète de cacheops
+CACHEOPS_ENABLED = False
+
+# Configuration pour les images Unsplash
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
+IMAGEKIT_CACHEFILE_DIR = 'CACHE/images'
+
+# Configuration des en-têtes de sécurité
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_SECONDS = 31536000  # 1 an
