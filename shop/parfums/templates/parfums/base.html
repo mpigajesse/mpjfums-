@@ -4,11 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="MPJFUMS - Parfumerie de luxe gabonaise proposant des fragrances d'exception inspirées des richesses naturelles du Gabon">
     <title>MPJFUMS - {% block title %}Boutique de Parfums{% endblock %}</title>
+    
+    <!-- Optimisations SEO et performance -->
+    <meta name="theme-color" content="#343a40">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" as="style">
+    <link rel="preload" href="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}" as="script">
+    
+    <!-- Preconnect à des domaines tiers pour améliorer les performances -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}">
+    
     <!-- Bootstrap CSS (local) -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Styles personnalisés -->
+    <style>
+        /* Styles critiques pour éviter les déplacements de contenu */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Animation subtile pour le chargement des images */
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+        
+        .lazy-load.loaded {
+            opacity: 1;
+        }
+        
+        /* Style pour l'installation PWA */
+        #pwa-install {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -38,6 +103,13 @@
             </div>
         </div>
     </nav>
+
+    <!-- Message d'installation PWA -->
+    <div id="pwa-install">
+        <p>Installez notre application pour une meilleure expérience!</p>
+        <button id="pwa-install-btn" class="btn btn-light btn-sm">Installer</button>
+        <button id="pwa-dismiss-btn" class="btn btn-outline-light btn-sm ms-2">Plus tard</button>
+    </div>
 
     <!-- Contenu principal -->
     <main class="container py-5">
@@ -73,6 +145,108 @@
 
     <!-- Bootstrap JavaScript (local) -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    
+    <!-- Script pour le chargement paresseux des images -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Observer pour le chargement paresseux des images
+            var lazyloadImages;    
+            
+            if ("IntersectionObserver" in window) {
+                lazyloadImages = document.querySelectorAll(".lazy-load");
+                var imageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            var image = entry.target;
+                            image.src = image.dataset.src;
+                            image.classList.add("loaded");
+                            imageObserver.unobserve(image);
+                        }
+                    });
+                });
+                
+                lazyloadImages.forEach(function(image) {
+                    imageObserver.observe(image);
+                });
+            } else {  
+                // Fallback pour les navigateurs plus anciens
+                var lazyloadThrottleTimeout;
+                
+                function lazyload() {
+                    if (lazyloadThrottleTimeout) {
+                        clearTimeout(lazyloadThrottleTimeout);
+                    }    
+                    
+                    lazyloadThrottleTimeout = setTimeout(function() {
+                        var scrollTop = window.pageYOffset;
+                        lazyloadImages = document.querySelectorAll(".lazy-load");
+                        
+                        lazyloadImages.forEach(function(img) {
+                            if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                                img.src = img.dataset.src;
+                                img.classList.add("loaded");
+                            }
+                        });
+                        
+                        if (lazyloadImages.length == 0) { 
+                            document.removeEventListener("scroll", lazyload);
+                            window.removeEventListener("resize", lazyload);
+                            window.removeEventListener("orientationChange", lazyload);
+                        }
+                    }, 20);
+                }
+                
+                document.addEventListener("scroll", lazyload);
+                window.addEventListener("resize", lazyload);
+                window.addEventListener("orientationChange", lazyload);
+            }
+            
+            // Enregistrement du Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register("{% static 'serviceworker.js' %}")
+                        .then(function(registration) {
+                            console.log('Service Worker enregistré avec succès:', registration.scope);
+                        })
+                        .catch(function(error) {
+                            console.log('Échec de l\'enregistrement du Service Worker:', error);
+                        });
+                });
+            }
+            
+            // Gestion de l'installation PWA
+            let deferredPrompt;
+            const pwaInstall = document.getElementById('pwa-install');
+            const pwaInstallBtn = document.getElementById('pwa-install-btn');
+            const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Empêcher Chrome 67+ d'afficher automatiquement l'invite
+                e.preventDefault();
+                // Stocker l'événement pour qu'il puisse être déclenché plus tard
+                deferredPrompt = e;
+                // Afficher l'interface d'installation
+                pwaInstall.style.display = 'block';
+            });
+            
+            pwaInstallBtn.addEventListener('click', (e) => {
+                // Masquer l'interface d'installation
+                pwaInstall.style.display = 'none';
+                // Afficher l'invite
+                deferredPrompt.prompt();
+                // Attendre que l'utilisateur réponde à l'invite
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                });
+            });
+            
+            pwaDismissBtn.addEventListener('click', (e) => {
+                // Masquer l'interface d'installation
+                pwaInstall.style.display = 'none';
+            });
+        });
+    </script>
+    
     {% block extra_js %}{% endblock %}
 </body>
 </html> 

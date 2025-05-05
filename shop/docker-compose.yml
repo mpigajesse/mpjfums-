@@ -8,7 +8,19 @@ services:
     volumes:
       - .:/app/shop
       - ..:/app
+      - /app/shop/staticfiles  # Volume dédié pour les fichiers statiques
+      - /app/shop/media        # Volume dédié pour les médias
     ports:
       - "8000:8000"
     working_dir: /app/shop
-    command: python manage.py runserver 0.0.0.0:8000 
+    environment:
+      - DEBUG=True
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    # Installation des dépendances + lancement du serveur
+    command: >
+      bash -c "pip install whitenoise pillow django-imagekit django-browser-reload &&
+              python manage.py makemigrations parfums &&
+              python manage.py migrate &&
+              python manage.py collectstatic --noinput &&
+              python manage.py runserver 0.0.0.0:8000" 

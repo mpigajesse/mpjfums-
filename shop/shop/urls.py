@@ -1,25 +1,37 @@
-"""
-URL configuration for shop project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
+from django.contrib.staticfiles.views import serve
+from django.views.decorators.cache import cache_control
+from django.conf import settings
+from django.conf.urls.static import static
+
+# Vues spéciales pour les fichiers statiques avec cache long
+@cache_control(max_age=2592000)  # 30 jours de cache
+def serve_robots_txt(request):
+    return serve(request, 'robots.txt', document_root=settings.STATIC_ROOT)
+
+@cache_control(max_age=2592000)  # 30 jours de cache
+def serve_manifest_json(request):
+    return serve(request, 'manifest.json', document_root=settings.STATIC_ROOT)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/parfums/', include('parfums.urls')),
     path('', RedirectView.as_view(url='/shop/parfums/')),  # Redirection de la racine vers /shop/parfums/
+    
+    # Fichiers spéciaux pour SEO et PWA
+    path('robots.txt', serve_robots_txt),
+    path('manifest.json', serve_manifest_json),
+    
+    # Page d'erreur 404 personnalisée
+    path('404/', TemplateView.as_view(template_name='404.html'), name='page_404'),
+    
+    # Django Browser Reload pour le développement
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
+
+# Ajouter les URLs de DEBUG uniquement en développement
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,9 +1,10 @@
 {% extends 'parfums/base.html' %}
+{% load static %}
 
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-<!-- Section Hero avec parallax et appel à l'action -->
+<!-- Section Hero avec parallax et appel à l'action (Image préchargée car visible immédiatement) -->
 <div class="hero-section position-relative overflow-hidden mb-4">
     <div class="hero-image" style="background-image: url('https://images.unsplash.com/photo-1588514912908-8f5891714f8d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 55vh; background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;">
         <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"></div>
@@ -38,7 +39,7 @@
             <div class="col-md-6">
                 <div class="card border-0 rounded-3 shadow-sm h-100 overflow-hidden">
                     <div class="ratio ratio-16x9">
-                        <img src="https://images.unsplash.com/photo-1605619227865-f8af18dfeab4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXxPaDhhZmtSRFhGMHx8ZW58MHx8fHx8" class="card-img-top object-fit-cover" alt="Collection Femme - Parfums du Gabon">
+                        <img class="lazy-load card-img-top object-fit-cover" data-src="https://images.unsplash.com/photo-1605619227865-f8af18dfeab4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXxPaDhhZmtSRFhGMHx8ZW58MHx8fHx8" alt="Collection Femme - Parfums du Gabon">
                     </div>
                     <div class="card-body p-3">
                         <div class="d-flex flex-column h-100">
@@ -55,7 +56,7 @@
             <div class="col-md-6">
                 <div class="card border-0 rounded-3 shadow-sm h-100 overflow-hidden">
                     <div class="ratio ratio-16x9">
-                        <img src="https://plus.unsplash.com/premium_photo-1670445045282-36648e89af6b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGFyZnVtbnN8ZW58MHx8MHx8fDA%3D" class="card-img-top object-fit-cover" alt="Collection Homme - Parfums du Gabon">
+                        <img class="lazy-load card-img-top object-fit-cover" data-src="https://plus.unsplash.com/premium_photo-1670445045282-36648e89af6b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGFyZnVtbnN8ZW58MHx8MHx8fDA%3D" alt="Collection Homme - Parfums du Gabon">
                     </div>
                     <div class="card-body p-3">
                         <div class="d-flex flex-column h-100">
@@ -73,20 +74,60 @@
     </div>
 </section>
 
-<!-- Section parfums tendances avec carousel -->
+<!-- Section parfums tendances -->
 <section class="mb-4 py-3 bg-light">
     <div class="container">
         <div class="text-center mb-3">
             <h2 class="display-6 fw-bold">Parfums Tendances</h2>
             <p class="lead text-muted">Nos créations les plus prisées, véritables ambassadrices des trésors olfactifs du Gabon</p>
-            <p class="text-center"><span class="badge bg-warning text-dark">En cours de développement</span> Disponibles très prochainement</p>
         </div>
         
+        {% if featured_parfums %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {% for parfum in featured_parfums %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                    <img class="lazy-load card-img-top" style="height: 180px; object-fit: cover;" data-src="{{ parfum.get_display_image }}" alt="{{ parfum.nom }}">
+                    <div class="card-body p-3">
+                        <h4 class="card-title fs-5 fw-bold">{{ parfum.nom }}</h4>
+                        <p class="text-muted mb-1 small">{{ parfum.categorie.nom }}</p>
+                        <p class="card-text small">{{ parfum.description|truncatechars:120 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="fs-5 fw-bold">{{ parfum.prix }} €</span>
+                            <a href="{% url 'parfums:detail_parfum' parfum.id %}" class="btn btn-outline-dark btn-sm">Découvrir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% elif parfums %}
+        <!-- Affichage en mode dégradé si les featured_parfums ne sont pas disponibles mais parfums l'est -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {% for parfum in parfums %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                    <img class="lazy-load card-img-top" style="height: 180px; object-fit: cover;" data-src="{{ parfum.image }}" alt="{{ parfum.nom }}">
+                    <div class="card-body p-3">
+                        <h4 class="card-title fs-5 fw-bold">{{ parfum.nom }}</h4>
+                        <p class="text-muted mb-1 small">{{ parfum.categorie.nom }}</p>
+                        <p class="card-text small">{{ parfum.description|truncatechars:120 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="fs-5 fw-bold">{{ parfum.prix }} €</span>
+                            <a href="{% url 'parfums:detail_parfum' parfum.id %}" class="btn btn-outline-dark btn-sm">Découvrir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center"><span class="badge bg-warning text-dark">En cours de développement</span> Disponibles très prochainement</p>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
             <!-- Parfum 1 -->
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1566977776052-6e61e35bf9be?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Élixir Mystique - Parfum du Gabon">
+                    <img class="lazy-load card-img-top" style="height: 180px; object-fit: cover;" data-src="https://images.unsplash.com/photo-1566977776052-6e61e35bf9be?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Élixir Mystique - Parfum du Gabon">
                     <div class="card-body p-3">
                         <h4 class="card-title fs-5 fw-bold">Élixir Mystique</h4>
                         <p class="text-muted mb-1 small">Parfum Oriental</p>
@@ -102,7 +143,7 @@
             <!-- Parfum 2 -->
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
-                    <img src="https://media.istockphoto.com/id/654259232/photo/perfume-bottles.jpg?s=2048x2048&w=is&k=20&c=H_TkFoAkMDmjBAFVN2U-Pz7tbQFWaGb5lGHlrKRppNY=" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Brise Marine - Parfum du Gabon">
+                    <img class="lazy-load card-img-top" style="height: 180px; object-fit: cover;" data-src="https://media.istockphoto.com/id/654259232/photo/perfume-bottles.jpg?s=2048x2048&w=is&k=20&c=H_TkFoAkMDmjBAFVN2U-Pz7tbQFWaGb5lGHlrKRppNY=" alt="Brise Marine - Parfum du Gabon">
                     <div class="card-body p-3">
                         <h4 class="card-title fs-5 fw-bold">Brise Marine</h4>
                         <p class="text-muted mb-1 small">Parfum Aquatique</p>
@@ -118,7 +159,7 @@
             <!-- Parfum 3 -->
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1584949513276-aa3a8f629a20?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Rose Élégance - Parfum du Gabon">
+                    <img class="lazy-load card-img-top" style="height: 180px; object-fit: cover;" data-src="https://images.unsplash.com/photo-1584949513276-aa3a8f629a20?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Rose Élégance - Parfum du Gabon">
                     <div class="card-body p-3">
                         <h4 class="card-title fs-5 fw-bold">Rose Élégance</h4>
                         <p class="text-muted mb-1 small">Parfum Floral</p>
@@ -131,6 +172,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 
@@ -140,7 +182,7 @@
         <div class="row align-items-center">
             <div class="col-lg-5 mb-3 mb-lg-0">
                 <div class="rounded-3 overflow-hidden shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1588514912908-8f5891714f8d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid w-100" style="max-height: 300px; object-fit: cover;" alt="Notre laboratoire de parfumerie gabonaise">
+                    <img class="lazy-load img-fluid w-100" style="max-height: 300px; object-fit: cover;" data-src="https://images.unsplash.com/photo-1588514912908-8f5891714f8d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Notre laboratoire de parfumerie gabonaise">
                 </div>
             </div>
             <div class="col-lg-7 ps-lg-4">
