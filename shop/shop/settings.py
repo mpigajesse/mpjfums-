@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 
 # Intégration de Sentry pour la surveillance des erreurs
+# Désactivé temporairement en raison d'un problème de configuration
+"""
 try:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
@@ -30,6 +32,7 @@ try:
 except ImportError:
     # Sentry n'est pas installé, pas de problème en développement
     pass
+"""
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
