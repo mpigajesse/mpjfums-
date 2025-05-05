@@ -6,9 +6,11 @@ WORKDIR /app
 
 # Copier les requirements.txt
 COPY requirements.txt /app/
+COPY shop/requirements.txt /app/shop/
 
 # Installer les dépendances
 RUN pip install -r requirements.txt
+RUN pip install -r shop/requirements.txt
 
 # Copier tout le code de l'application
 COPY . /app/
