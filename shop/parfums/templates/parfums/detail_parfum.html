@@ -77,6 +77,35 @@
                 {% endif %}
             {% endwith %}
             
+            <!-- Visualisation interactive des notes de parfum -->
+            <div class="notes-visualization-container mb-4">
+                <h2 class="h4 mb-3">Pyramide olfactive</h2>
+                <div class="pyramid-container">
+                    <div class="pyramid-level top-notes">
+                        <div class="pyramid-content">
+                            <h5>Notes de tête</h5>
+                            <p>{{ notes.tete|default:"Agrumes, Bergamote, Fleurs sauvages" }}</p>
+                            <div class="timing">15 min</div>
+                        </div>
+                    </div>
+                    <div class="pyramid-level heart-notes">
+                        <div class="pyramid-content">
+                            <h5>Notes de cœur</h5>
+                            <p>{{ notes.coeur|default:"Okoumé, Jasmin, Rose" }}</p>
+                            <div class="timing">2-3 heures</div>
+                        </div>
+                    </div>
+                    <div class="pyramid-level base-notes">
+                        <div class="pyramid-content">
+                            <h5>Notes de fond</h5>
+                            <p>{{ notes.fond|default:"Bois de Gabon, Musc, Ambre" }}</p>
+                            <div class="timing">5-8 heures</div>
+                        </div>
+                    </div>
+                    <div class="pyramid-highlight"></div>
+                </div>
+            </div>
+            
             <div class="mb-4">
                 <h2 class="h4">Disponibilité</h2>
                 {% if parfum.stock > 0 %}
@@ -84,6 +113,43 @@
                 {% else %}
                     <p class="text-danger"><i class="fas fa-times-circle"></i> Rupture de stock</p>
                 {% endif %}
+            </div>
+            
+            <!-- Configurateur de produit -->
+            <div class="product-configurator mb-4">
+                <h2 class="h4 mb-3">Personnalisez votre expérience</h2>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="productSize">
+                                <option value="30">30ml - {{ parfum.prix|floatformat:2 }} €</option>
+                                <option value="50">50ml - {{ parfum.prix|add:20|floatformat:2 }} €</option>
+                                <option value="100">100ml - {{ parfum.prix|add:40|floatformat:2 }} €</option>
+                            </select>
+                            <label for="productSize">Contenance</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="productPackaging">
+                                <option value="standard">Écrin standard</option>
+                                <option value="premium">Écrin premium (+15€)</option>
+                                <option value="luxury">Coffret luxe (+25€)</option>
+                            </select>
+                            <label for="productPackaging">Présentation</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="productGravure">
+                                <option value="none">Sans gravure</option>
+                                <option value="initials">Initiales (+5€)</option>
+                                <option value="name">Nom complet (+10€)</option>
+                            </select>
+                            <label for="productGravure">Personnalisation</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="d-grid gap-2">
@@ -144,4 +210,32 @@
   "category": "{{ parfum.categorie.nom }}"
 }
 </script>
-{% endblock %} 
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurateur de produit
+        const sizeSelect = document.getElementById('productSize');
+        const packagingSelect = document.getElementById('productPackaging');
+        const gravureSelect = document.getElementById('productGravure');
+        let basePrice = parseFloat('{{ parfum.prix }}');
+        
+        function updateTotalPrice() {
+            let totalPrice = basePrice;
+            
+            // Ajouter le prix selon la taille
+            if (sizeSelect.value === '50') {
+                totalPrice += 20;
+            } else if (sizeSelect.value === '100') {
+                totalPrice += 40;
+            }
+            
+            // Ajouter le prix selon l'emballage
+            if (packagingSelect.value === 'premium') {
+                totalPrice += 15;
+            } else if (packagingSelect.value === 'luxury') {
+                totalPrice += 25;
+            }
+            
+            // Ajouter le prix selon la gravure
+            if (gravureSelect.value === 'initials') {
+                totalPrice += 5;

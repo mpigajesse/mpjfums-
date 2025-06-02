@@ -64,6 +64,76 @@
     </div>
 </div>
 
+<!-- Sélecteur de parfum 3D interactif -->
+<div class="container mb-5">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <div class="col-lg-6 p-4 p-lg-5">
+                    <h3 class="display-6 fw-bold mb-3">Trouvez votre parfum idéal</h3>
+                    <p class="lead mb-4">Une expérience interactive pour découvrir votre signature olfactive gabonaise</p>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <label class="fw-bold">Intensité</label>
+                            <span class="selected-value" id="intensity-value">Modéré</span>
+                        </div>
+                        <input type="range" class="form-range custom-range" min="1" max="5" value="3" id="intensity-slider">
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span>Légère</span>
+                            <span>Intense</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2">Notes dominantes</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-sm btn-outline-dark note-btn active" data-note="boisé">Boisé</button>
+                            <button class="btn btn-sm btn-outline-dark note-btn" data-note="floral">Floral</button>
+                            <button class="btn btn-sm btn-outline-dark note-btn" data-note="épicé">Épicé</button>
+                            <button class="btn btn-sm btn-outline-dark note-btn" data-note="agrume">Agrume</button>
+                            <button class="btn btn-sm btn-outline-dark note-btn" data-note="marin">Marin</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <label class="fw-bold">Persistance</label>
+                            <span class="selected-value" id="longevity-value">Moyenne</span>
+                        </div>
+                        <input type="range" class="form-range custom-range" min="1" max="5" value="3" id="longevity-slider">
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span>Courte</span>
+                            <span>Longue</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button class="btn btn-primary px-4 find-perfume-btn">
+                            <i class="fas fa-magic me-2"></i> Trouver mon parfum
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6 bg-dark text-white position-relative">
+                    <div class="perfume-showcase h-100 d-flex align-items-center justify-content-center">
+                        <div class="perfume-3d-container">
+                            <div class="perfume-3d-wrapper" id="perfume-3d">
+                                <div class="bottle-inner">
+                                    <div class="liquid"></div>
+                                    <div class="bottle-reflection"></div>
+                                </div>
+                                <div class="bottle-outer"></div>
+                                <div class="bottle-cap"></div>
+                                <div class="perfume-name">MPJFUMS<br><span class="small">Collection Équatoriale</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Section Libreville, capitale du parfum -->
 <div class="container mb-4">
     <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
@@ -421,32 +491,6 @@
     </div>
 </div>
 
-<style>
-    .hover-scale {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .hover-scale:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    .badge {
-        transition: all 0.2s ease;
-    }
-    .badge:hover {
-        transform: scale(1.1);
-    }
-    .province-card {
-        overflow: hidden;
-        height: 160px;
-        border: none;
-    }
-    .province-card img {
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-    .province-card:hover img {
-        transform: scale(1.1);
-    }
-</style>
-{% endblock %} 
+
+
+{% endblock %}
