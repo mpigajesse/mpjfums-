@@ -1,67 +1,52 @@
 # MPJFUMS - Parfumerie Gabonaise en ligne
 
-MPJFUMS est une application web de parfumerie gabonaise développée avec Django, offrant une expérience utilisateur élégante et performante.
+MPJFUMS est une application web de gestion de parfumerie, conçue pour le marché gabonais et bâtie avec Django. Ce projet propose une base solide et gratuite pour toute personne ou entreprise souhaitant continuer ou personnaliser une boutique de parfums en ligne. Les échantillons fournis sont des exemples de base pour démarrer votre propre plateforme.
 
-## 🌟 Fonctionnalités
+## 🌟 Fonctionnalités principales
 
-- Catalogue de parfums avec catégorisation
-- Optimisation des images avec django-imagekit
-- Interface administrateur personnalisée
+- Catalogue de parfums catégorisés
+- Optimisation automatique des images via django-imagekit
+- Interface d’administration améliorée
 - Multilingue (français par défaut)
-- Responsive design pour mobile et desktop
+- Interface responsive (mobile & desktop)
+- Gestion des stocks et commandes de base
+- Déploiement simplifié sur Railway
 
-## 🛠️ Technologies utilisées
+## 🚀 Technologies utilisées
 
-- **Backend**: Django 5.2
-- **Base de données**: PostgreSQL (production), SQLite (développement)
-- **Déploiement**: Docker, Railway
-- **CI/CD**: GitHub Actions
-- **Monitoring**: Sentry
-- **Statiques**: WhiteNoise
-- **Optimisations**:
-  - Traitement d'images: django-imagekit
-  - Mise en cache: django-cache-memoize
+- **Backend:** Django 5.2
+- **Base de données:** PostgreSQL (prod.) / SQLite (dev.)
+- **Conteneurisation :** Docker & Docker Compose
+- **CI/CD :** GitHub Actions, Railway
+- **Monitoring :** Sentry
+- **Gestion des fichiers statiques:** WhiteNoise
+- **Optimisation des performances:** Cache (django-cache-memoize), traitement images
 
-## 🚀 Installation et démarrage
+## 🔥 Démarrer rapidement
 
 ### Prérequis
 - Python 3.10+
-- Docker et Docker Compose (optionnel)
+- (Optionnel) Docker & Docker Compose
 
 ### Installation locale
 
 ```bash
-# Cloner le dépôt
-git clone https://github.com/votre-utilisateur/mpjfums-.git
+git clone https://github.com/mpigajesse/mpjfums-.git
 cd mpjfums-
-
-# Installer les dépendances
 pip install -r requirements.txt
-
-# Configurer la base de données
-cd shop
-python manage.py migrate
-
-# Démarrer le serveur
+cd shop && python manage.py migrate
 python manage.py runserver
 ```
 
 ### Avec Docker
-
 ```bash
-# Construire et démarrer les conteneurs
 docker-compose -f shop/docker-compose.yml up
 ```
-
-L'application sera disponible à l'adresse http://localhost:8000
+Ouvrez http://localhost:8000
 
 ## 📦 Déploiement
 
-L'application est configurée pour un déploiement facile sur Railway. Consultez le fichier [railwaydoc.md](railwaydoc.md) pour les instructions détaillées.
-
-### Pipeline CI/CD
-
-Un pipeline CI/CD est configuré avec GitHub Actions pour les tests et l'analyse de code, et Railway pour le déploiement automatique. Voir [CICD.md](CICD.md) pour plus de détails.
+Le projet est prêt à être déployé sur Railway. Consultez [railwaydoc.md](railwaydoc.md) pour les étapes détaillées.
 
 ## 🧪 Tests
 
@@ -72,13 +57,16 @@ python manage.py test
 
 ## 📚 Documentation
 
-- [Guide de déploiement Railway](railwaydoc.md)
-- [Configuration CI/CD](CICD.md)
+- Guide Railway: [railwaydoc.md](railwaydoc.md)
+- Pipeline CI/CD: [CICD.md](CICD.md)
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! N'hésitez pas à soumettre des pull requests.
+Ce dépôt propose des échantillons de base, entièrement gratuits pour toute utilisation ou extension. Vous pouvez donc l’utiliser comme base pour vos propres projets de boutique de parfum ou e-commerce, et continuer de l’améliorer selon vos besoins. Les contributions (issues, pull requests) sont encouragées !
 
 ## 📝 Licence
 
-Ce projet est sous licence [MIT](LICENSE).
+Projet sous licence [MIT](LICENSE).
+
+---
+> **Remarque :** Ce projet fournit un socle solide, gratuit et prêt à être personnalisé par toute personne désireuse de poursuivre ou d’étendre la solution. Profitez-en pour démarrer rapidement votre boutique en ligne !
